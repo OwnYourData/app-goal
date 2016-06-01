@@ -5,7 +5,18 @@ n <- 200
 # Define the UI
 ui <- bootstrapPage(
         numericInput('n', 'Number of obs', n),
-        plotOutput('plot')
+        htmlOutput('myRandom'),
+        plotOutput('plot'),
+        
+        # javascript code to send data to shiny server
+        tags$script('
+                setInterval(avoidIdle, 5000);
+                function avoidIdle() {
+                        var number = Math.random();
+                        Shiny.onInputChange("myData", number);
+                };
+        ')
+        
 )
 
 
@@ -13,6 +24,10 @@ ui <- bootstrapPage(
 server <- function(input, output) {
         output$plot <- renderPlot({
                 hist(runif(input$n))
+        })
+        
+        output$myRandom <- renderText({
+                input$myData;
         })
 }
 

@@ -1,0 +1,8 @@
+{
+  "name": "Tagesziel",
+  "description": "setze dir täglich ein Ziel",
+  "repository": "https://github.com/OwnYourData/app-goal",
+  "keywords": ["ownyourdata", "ziel"],
+  "website": "https://www.ownyourdata.eu",
+  "buildpacks": [{ "url": "http://github.com/virtualstaticvoid/heroku-buildpack-r" }]
+}

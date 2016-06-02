@@ -6,7 +6,7 @@
 ###########################################################
 # Update this line with the R packages to install:
 
-my_packages = c('shiny')
+my_packages = c('shiny', 'devtools')
 
 ###########################################################
 
@@ -19,3 +19,5 @@ install_if_missing = function(p) {
   }
 }
 invisible(sapply(my_packages, install_if_missing))
+library(devtools)
+install_github("trestletech/shinyStore")

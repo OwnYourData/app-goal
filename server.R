@@ -29,6 +29,15 @@ shinyServer(function(input, output, session) {
                 renderUpgrade(session)
         })
         
+        output$hdrImageLink <- renderUI({
+                tags$div(
+                        tags$a(href=input$store$pia_url, 
+                               tags$img(height="25px", 
+                                        src="data:image/png;base64,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")),
+                        tags$a(href=input$store$pia_url, 'OwnYourData')
+                )
+        })
+        
         observe({
                 if (input$localStore <= 0){
                         # On initialization, set the value of the text editor to the current val.
@@ -83,6 +92,23 @@ shinyServer(function(input, output, session) {
                 piaData
         }
         
+        currDataSelect <- function(){
+                data <- currData()
+                save(data, file="tmpDatSel.RData")
+                if(nrow(data) == 0) {
+                        data.frame()
+                } else {
+                        data$dat <- as.POSIXct(data$date, 
+                                               format='%Y-%m-%d')
+                        dataMin <- min(data$dat, na.rm=TRUE)
+                        dataMax <- max(data$dat, na.rm=TRUE)
+                        curMin <- as.Date(input$dateRange[1], '%d.%m.%Y')
+                        curMax <- as.Date(input$dateRange[2], '%d.%m.%Y')
+                        daterange <- seq(curMin, curMax, 'days')
+                        data[as.Date(data$dat) %in% daterange, ]
+                }
+        }
+        
         observe({
                 switch(input$dateSelect,
                        '1'={ updateDateRangeInput(session, 'dateRange',
@@ -110,10 +136,12 @@ shinyServer(function(input, output, session) {
                 if(!is.null(date) & length(all.equal(repo, logical(0)))>1){
                         piaData <- currData()
                         existData <- piaData[piaData$date == date, ]
+                        existData <- existData[complete.cases(existData), ]
                         data <- list(date=date, 
                                      value=value)
                         url <- itemsUrl(repo[['url']], 
                                         paste0(repo[['app_key']]))
+                        save(repo, date, value, piaData, data, url, existData, file='tmpSaveNull.RData')
                         if (nrow(existData) > 0) {
                                 if(is.na(value) | is.null(value) | value == 'NA'){
                                         deleteRecord(repo, url, existData$id)
@@ -121,7 +149,12 @@ shinyServer(function(input, output, session) {
                                         updateRecord(repo, url, data, existData$id)
                                 }
                         } else {
-                                if(!is.na(value) & !is.null(value) & value != 'NA'){
+                                if(!is.na(value) & !is.null(value) & value != 'NA' & nchar(as.character(value))>2){
+                                        cat(paste0('data: ', value, "\n"))
+                                        cat(paste0('isNA: ', is.na(value), "\n"))
+                                        cat(paste0('isNULL: ', is.null(value), "\n"))
+                                        cat(paste0('isNAstr: ', value == 'NA', "\n"))
+                                        cat(paste0('length: ', length(as.character(value)), "\n"))
                                         writeRecord(repo, url, data)
                                 }
                         }
@@ -181,6 +214,7 @@ shinyServer(function(input, output, session) {
                         
                         # check for deleted records
                         deletedRecords <- sqldf('SELECT * FROM oldRecords EXCEPT SELECT * FROM newRecords')
+                        save(deletedRecords, file='tmpDel.RData')
                         if(nrow(deletedRecords) > 0) {
                                 for(i in 1:nrow(deletedRecords)){
                                         rec <- deletedRecords[i,]
@@ -231,7 +265,7 @@ shinyServer(function(input, output, session) {
         
         # from http://shiny.rstudio.com/gallery/word-cloud.html
         getTermMatrix <- function() {
-                data <- currData()
+                data <- currDataSelect()
                 data$dat <- as.POSIXct(data$date, 
                                        format='%Y-%m-%d')
                 dataMin <- min(data$dat, na.rm=TRUE)
@@ -274,12 +308,18 @@ shinyServer(function(input, output, session) {
                         first <<- FALSE                  
                 }
                 closeAlert(session, 'noDataAlert')
-                data <- currData()
+                data <- currDataSelect()
                 if(nrow(data) > 0) {
                         v <- terms()
-                        wordcloud_rep(names(v), v, scale=c(4,0.5),
-                                      max.words=input$maxWords,
-                                      colors=brewer.pal(8, "Dark2"))
+                        save(data, v, file="tmpAct.RData")
+                        if(length(v) > 0){
+                                wordcloud_rep(names(v), v, scale=c(4,0.5),
+                                              max.words=input$maxWords,
+                                              colors=brewer.pal(8, "Dark2"))
+                        } else {
+                                createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
+                                            content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
+                        }
                 } else {
                         createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
                                     content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)

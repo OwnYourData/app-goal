@@ -137,7 +137,6 @@ deleteRecord <- function(repo, url, id){
         response <- tryCatch(
                 DELETE(url, add_headers(headers)),
                 error = function(e) { return(NA) })
-        save(response, url, headers, repo, id, file='tmpPostdel.RData')
         response
 }
 

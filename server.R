@@ -100,7 +100,6 @@ shinyServer(function(input, output, session) {
         
         currDataSelect <- function(){
                 data <- currData()
-                save(data, file="tmpDatSel.RData")
                 if(nrow(data) == 0) {
                         data.frame()
                 } else {
@@ -147,7 +146,6 @@ shinyServer(function(input, output, session) {
                                      value=value)
                         url <- itemsUrl(repo[['url']], 
                                         paste0(repo[['app_key']]))
-                        save(repo, date, value, piaData, data, url, existData, file='tmpSaveNull.RData')
                         if (nrow(existData) > 0) {
                                 if(is.na(value) | is.null(value) | value == 'NA'){
                                         deleteRecord(repo, url, existData$id)
@@ -220,7 +218,6 @@ shinyServer(function(input, output, session) {
                         
                         # check for deleted records
                         deletedRecords <- sqldf('SELECT * FROM oldRecords EXCEPT SELECT * FROM newRecords')
-                        save(deletedRecords, file='tmpDel.RData')
                         if(nrow(deletedRecords) > 0) {
                                 for(i in 1:nrow(deletedRecords)){
                                         rec <- deletedRecords[i,]
@@ -317,7 +314,6 @@ shinyServer(function(input, output, session) {
                 data <- currDataSelect()
                 if(nrow(data) > 0) {
                         v <- terms()
-                        save(data, v, file="tmpAct.RData")
                         if(length(v) > 0){
                                 wordcloud_rep(names(v), v, scale=c(4,0.5),
                                               max.words=input$maxWords,

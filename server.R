@@ -69,12 +69,18 @@ shinyServer(function(input, output, session) {
                                 url <- input$store$pia_url
                                 app_key <- input$store$app_key
                                 app_secret <- input$store$app_secret
-                                if((nchar(url) > 0) & 
-                                   (nchar(app_key) > 0) & 
-                                   (nchar(app_secret) > 0)) {
-                                        getRepo(url, app_key, app_secret)
-                                } else {
+                                if(is.null(url) |
+                                   is.null(app_key) | 
+                                   is.null(app_secret)) {
                                         vector()
+                                } else {
+                                        if((nchar(url) > 0) & 
+                                           (nchar(app_key) > 0) & 
+                                           (nchar(app_secret) > 0)) {
+                                                getRepo(url, app_key, app_secret)
+                                        } else {
+                                                vector()
+                                        }
                                 }
                         }
                 }

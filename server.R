@@ -196,26 +196,26 @@ shinyServer(function(input, output, session) {
         
         observe({
                 if(!is.null(input$dateSelect)){
-                switch(input$dateSelect,
-                       '1'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(Sys.Date()-7),
-                                                  end = as.Date(Sys.Date())) },
-                       '2'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(Sys.Date() - months(1)),
-                                                  end = as.Date(Sys.Date())) },
-                       '3'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(Sys.Date() - months(2)),
-                                                  end = as.Date(Sys.Date())) },
-                       '4'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(Sys.Date() - months(6)),
-                                                  end = as.Date(Sys.Date())) },
-                       '5'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(paste(year(Sys.Date()),'1','1',sep='-')),
-                                                  end = as.Date(paste(year(Sys.Date()),'12','31',sep='-'))) },
-                       '6'={ updateDateRangeInput(session, 'dateRange',
-                                                  start = as.Date(Sys.Date() - months(12)),
-                                                  end = as.Date(Sys.Date())) },
-                       {})
+                        switch(input$dateSelect,
+                               '1'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(Sys.Date()-7),
+                                                          end = as.Date(Sys.Date())) },
+                               '2'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(Sys.Date() - months(1)),
+                                                          end = as.Date(Sys.Date())) },
+                               '3'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(Sys.Date() - months(2)),
+                                                          end = as.Date(Sys.Date())) },
+                               '4'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(Sys.Date() - months(6)),
+                                                          end = as.Date(Sys.Date())) },
+                               '5'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(paste(year(Sys.Date()),'1','1',sep='-')),
+                                                          end = as.Date(paste(year(Sys.Date()),'12','31',sep='-'))) },
+                               '6'={ updateDateRangeInput(session, 'dateRange',
+                                                          start = as.Date(Sys.Date() - months(12)),
+                                                          end = as.Date(Sys.Date())) },
+                               {})
                 }
         })
         
@@ -580,42 +580,44 @@ shinyServer(function(input, output, session) {
 
 # Extensions ==============================================
         observe({
-                input$addExtStatusItem
-                extName <- ''
-                extUi <- ''
-                extLogic <- ''
-                isolate({
-                        extName <- input$extStatusItemName
-                        extUi <- input$extStatusItemUi
-                        extLogic <- input$extStatusItemLogic })
-                if(!is.null(extName)){
-                        if(extName != ''){
-                                extRepo <- getRepo(extensionUrl, extensionId, extensionSecret)
-                                extUrl <- itemsUrl(extensionUrl, extensionId)
-                                data <- list(app=repo_app, 
-                                             type='status',
-                                             name=extName,
-                                             ui=extUi,
-                                             logic=extLogic)
-                                writeRecord(extRepo, extUrl, data)
-                                extItems <- readExtItems(repo_app)
-                                if(nrow(extItems) > 0){
-                                        statTabUiList <- extItems[extItems$type == 'status', 'name']
-                                        statTabUI <<- buildStatTabUI(
-                                                defaultStatTabUI,
-                                                extItems[extItems$type == 'status', c('name', 'ui')])
-                                        statTabLogic <<- paste(
-                                                defaultStatTabLogic, 
-                                                paste(extItems[extItems$type == 'status', 'logic']))
+                if(!is.null(input$addExtStatusItem)){
+                        input$addExtStatusItem
+                        extName <- ''
+                        extUi <- ''
+                        extLogic <- ''
+                        isolate({
+                                extName <- input$extStatusItemName
+                                extUi <- input$extStatusItemUi
+                                extLogic <- input$extStatusItemLogic })
+                        if(!is.null(extName)){
+                                if(extName != ''){
+                                        extRepo <- getRepo(extensionUrl, extensionId, extensionSecret)
+                                        extUrl <- itemsUrl(extensionUrl, extensionId)
+                                        data <- list(app=repo_app, 
+                                                     type='status',
+                                                     name=extName,
+                                                     ui=extUi,
+                                                     logic=extLogic)
+                                        writeRecord(extRepo, extUrl, data)
+                                        extItems <- readExtItems(repo_app)
+                                        if(nrow(extItems) > 0){
+                                                statTabUiList <- extItems[extItems$type == 'status', 'name']
+                                                statTabUI <<- buildStatTabUI(
+                                                        defaultStatTabUI,
+                                                        extItems[extItems$type == 'status', c('name', 'ui')])
+                                                statTabLogic <<- paste(
+                                                        defaultStatTabLogic, 
+                                                        paste(extItems[extItems$type == 'status', 'logic']))
+                                                
+                                                output$statusItemsUI <- renderUI(
+                                                        eval(parse(text = paste0(
+                                                                "tagList(",
+                                                                statTabUI,
+                                                                ")"))))
+                                                eval(parse(text = extLogic))
+                                        }
                                         
-                                        output$statusItemsUI <- renderUI(
-                                                eval(parse(text = paste0(
-                                                        "tagList(",
-                                                        statTabUI,
-                                                        ")"))))
-                                        eval(parse(text = extLogic))
                                 }
-                                
                         }
                 }
         })

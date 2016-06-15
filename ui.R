@@ -59,10 +59,10 @@ shinyUI(
 
                                                          ),
                                                          tags$div(class='panel-body',
-        #                                                           conditionalPanel(
-        #                                                                   condition = "output.displayVisual != ''",
-        #                                                                   tabAppStatusUI()
-        #                                                           ),
+                                                                  conditionalPanel(
+                                                                          condition = "output.displayVisual != ''",
+                                                                          tabAppStatusUI()
+                                                                  ),
                                                                   conditionalPanel(
                                                                           condition = "output.displaySource != ''",
                                                                           tabAppSourceUI()

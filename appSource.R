@@ -1,14 +1,13 @@
 tabAppSourceUI <- function(){
         fluidRow(
-                column(1),
-                column(10,
+                column(12,
                        tabsetPanel(
                                type="tabs",
                                tabPanel("Email-Benachrichtigungen",
                                         fluidRow(
                                                 column(2,
                                                        img(src='email.png',width='100px')),
-                                                column(9,
+                                                column(10,
                                                        helpText('Wenn du hier deine Emailadresse eingibst, erhältst du zu Monatsanfang eine Email mit der Abfrage nach den Werten auf den Zählergeräten für Wasser, Strom und Gas.'),
                                                        textInput('email', 'Emailadresse:'),
                                                        htmlOutput('email_status'),

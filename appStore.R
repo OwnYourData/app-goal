@@ -1,7 +1,6 @@
 tabAppStoreUI <- function(){
         fluidRow(
-                column(1),
-                column(10,
+                column(12,
                        bsAlert('topAlert'),
                        bsAlert('recordAlert'),
                        h3('Datenblatt'),
@@ -15,8 +14,8 @@ tabAppStoreUI <- function(){
                                 wellPanel(
                                         h3('Authentifizierung'),
                                         textInput('pia_url', 'Adresse:'),
-                                        textInput('app_key', 'ID (Allergien):'),
-                                        textInput('app_secret', 'Secret (Allergien):'),
+                                        textInput('app_key', 'Key:'),
+                                        textInput('app_secret', 'Secret:'),
                                         actionButton('localStore', 'Zugriffsinformationen speichern', icon('save')),
                                         hr(),
                                         htmlOutput('current_token'),

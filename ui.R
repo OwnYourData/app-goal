@@ -58,21 +58,20 @@ shinyUI(
                                                                   tags$div(class='clearfix')
 
                                                          ),
-                                                         p('content')
-        #                                                  tags$div(class='panel-body',
+                                                         tags$div(class='panel-body',
         #                                                           conditionalPanel(
         #                                                                   condition = "output.displayVisual != ''",
         #                                                                   tabAppStatusUI()
         #                                                           ),
-        #                                                           conditionalPanel(
-        #                                                                   condition = "output.displaySource != ''",
-        #                                                                   tabAppSourceUI()
-        #                                                           ),
-        #                                                           conditionalPanel(
-        #                                                                   condition = "output.displayStore != ''",
-        #                                                                   tabAppStoreUI()
-        #                                                           )
-        #                                                  )
+                                                                  conditionalPanel(
+                                                                          condition = "output.displaySource != ''",
+                                                                          tabAppSourceUI()
+                                                                  ),
+                                                                  conditionalPanel(
+                                                                          condition = "output.displayStore != ''",
+                                                                          tabAppStoreUI()
+                                                                  )
+                                                         )
                                                 )
                                          )
                                  )),

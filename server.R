@@ -110,7 +110,7 @@ shinyServer(function(input, output, session) {
         observeEvent(input$buttonVisual, {
                 output$displayVisual <- renderText('0')
                 output$displaySource <- renderText('')
-                output$displaySource <- renderText('')
+                output$displayStore <- renderText('')
         })
        
         observeEvent(input$buttonSource, {

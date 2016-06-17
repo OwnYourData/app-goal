@@ -128,21 +128,18 @@ shinyUI(
                 ),
         conditionalPanel(
                 condition=(isMobile),
-                navbarPage("Navbar!",
-                           tabPanel("Plot",
-                                    sidebarLayout(
-                                            sidebarPanel(
-                                                    radioButtons("plotType", "Plot type",
-                                                                 c("Scatter"="p", "Line"="l")
-                                                    )
-                                            ),
-                                            mainPanel(
-                                                    plotOutput("plot")
-                                            )
-                                    )
-                           ),
-                           tabPanel("Summary",
-                                    verbatimTextOutput("summary")
+                navbarPage("Christoph's PIA", collapsible = TRUE,
+                           tabPanel("Wortwolke",
+                                    plotOutput(outputId = 'plotCloudMobile', height = '300px')),
+                           tabPanel("PIA Einrichtung",
+                                    h3('Authentifizierung'),
+                                    textInput('pia_urlMobile', 'Adresse:'),
+                                    textInput('app_keyMobile', 'Key:'),
+                                    textInput('app_secretMobile', 'Secret:'),
+                                    actionButton('localStoreMobile', 'Zugriffsinformationen speichern', icon('save')),
+                                    hr(),
+                                    htmlOutput('current_tokenMobile'),
+                                    htmlOutput('current_recordsMobile')
                            )
                 )        
         )

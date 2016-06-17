@@ -8,7 +8,7 @@ tabAppSourceUI <- function(){
                                                 column(2,
                                                        img(src='email.png',width='100px')),
                                                 column(10,
-                                                       helpText('Wenn du hier deine Emailadresse eingibst, erhältst du zu Monatsanfang eine Email mit der Abfrage nach den Werten auf den Zählergeräten für Wasser, Strom und Gas.'),
+                                                       helpText('Wenn du hier deine Emailadresse eingibst, erhältst du jeden Morgen eine Email mit der Frage nach deiner aktuellen Top-Prioriät.'),
                                                        textInput('email', 'Emailadresse:'),
                                                        htmlOutput('email_status'),
                                                        checkboxInput('showEmailsetup', 'Emailsetup konfigurieren', FALSE),

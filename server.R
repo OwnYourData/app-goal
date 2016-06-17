@@ -409,6 +409,65 @@ shinyServer(function(input, output, session) {
         #         plotData()
         # })
         #-----------------------------
+
+        getTermMatrixMobile <- function() {
+                data <- currData()
+                data$dat <- as.POSIXct(data$date, 
+                                       format='%Y-%m-%d')
+                dataMin <- min(data$dat, na.rm=TRUE)
+                dataMax <- max(data$dat, na.rm=TRUE)
+                curMin <- as.Date(input$dateRange[1], '%d.%m.%Y')
+                curMax <- as.Date(input$dateRange[2], '%d.%m.%Y')
+                daterange <- seq(curMin, curMax, 'days')
+                #data <- data[as.Date(data$dat) %in% daterange, ]
+                
+                text <- paste(data$value, collapse = ' ')
+                myCorpus = Corpus(VectorSource(text))
+                myCorpus = tm_map(myCorpus, content_transformer(tolower))
+                myCorpus = tm_map(myCorpus, removePunctuation)
+                myCorpus = tm_map(myCorpus, removeNumbers)
+                myCorpus = tm_map(myCorpus, removeWords,
+                                  c(stopwords('SMART'), 
+                                    stopwords('en'), 
+                                    stopwords('german'), 
+                                    'thy', 'thou', 'thee', 'the', 'and', 'but'))
+                myDTM = TermDocumentMatrix(myCorpus,
+                                           control = list(minWordLength = 1))
+                m = as.matrix(myDTM)
+                sort(rowSums(m), decreasing = TRUE)
+        }
+        
+        termsMobile <- function(){
+                withProgress({
+                        setProgress(message = 'Processing corpus...')
+                        getTermMatrixMobile()
+                })
+        }
+        
+        plotDataMobile <- function(){
+                data <- currData()
+                if(nrow(data) > 0) {
+                        v <- termsMobile()
+                        if(length(v) > 0){
+                                wordcloud_rep(names(v), v, scale=c(4,0.5), min.freq=1,
+                                              max.words=input$maxWords,
+                                              colors=brewer.pal(8, 'Dark2'))
+                        } else {
+                                createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
+                                            content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
+                        }
+                } else {
+                        createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
+                                    content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
+                }
+        }
+        
+        
+        output$plotCloudMobile <- renderPlot({
+                input$dataSheet
+                input$dateRangeMobile
+                plotDataMobile()
+        })
         
         output$current_token <- renderText({
                 repo <- currRepo()

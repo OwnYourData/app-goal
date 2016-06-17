@@ -83,16 +83,17 @@ defaultStatTabLogic <- "
                 if(nrow(data) > 0) {
                         v <- terms()
                         if(length(v) > 0){
-                                wordcloud_rep(names(v), v, scale=c(4,0.5),
-                                        max.words=input$maxWords,
-                                        colors=brewer.pal(8, 'Dark2'))
+                                save(data, v, file='tmpData.RData')
+                                wordcloud_rep(names(v), v, scale=c(4,0.5), min.freq=1,
+                                              max.words=input$maxWords,
+                                              colors=brewer.pal(8, 'Dark2'))
                         } else {
                                 createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
-                                        content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
+                                            content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
                         }
                 } else {
                         createAlert(session, 'noData', 'noDataAlert', style='info', title='Keine Daten vorhanden',
-                        content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
+                                    content='Erfasse Datensätze oder abonniere ein periodisches Email zur Datensammlung.', append=FALSE)
                 }
         }
 

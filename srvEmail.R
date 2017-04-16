@@ -1,7 +1,7 @@
 # functions for sending email reminders
 # last update: 2017-02-06
 
-writeSchedulerEmail <- function(app, app_name, email, subject, content, time, response_structure, id){
+writeSchedulerEmail <- function(app, app_name, email, subject, content, time, response_structure, parameters, id){
         port <- as.character(session$clientData$url_port)
         app_url <- paste0(session$clientData$url_protocol, '//',
                           session$clientData$url_hostname)
@@ -9,29 +9,53 @@ writeSchedulerEmail <- function(app, app_name, email, subject, content, time, re
                 app_url <- paste0(app_url, ':', port)
         }
         if(missing(response_structure)) {
-                parameters <- list(address = email,
-                                   appName = app_name,
-                                   subject = subject,
-                                   content = content,
-                                   appUrl  = app_url,
-                                   pia_url  = app[['url']],
-                                   encrypt = 'false')
+                if(missing(parameters)){
+                        parameters <- list(address = email,
+                                           appName = app_name,
+                                           subject = subject,
+                                           content = content,
+                                           appUrl  = app_url,
+                                           pia_url  = app[['url']],
+                                           encrypt = 'false')
+                } else {
+                        parameters$address = email
+                        parameters$appName = app_name
+                        parameters$subject = subject
+                        parameters$content = content
+                        parameters$appUrl  = app_url
+                        parameters$pia_url  = app[['url']]
+                        parameters$encrypt = 'false'
+                }
                 config <- list(app            = app[['app_key']],
                                time           = time,
                                task           = 'email',
                                parameters     = parameters,
                                '_oydRepoName' = 'Scheduler')
         } else {
-                parameters <- list(address            = email,
-                                   appName            = app_name,
-                                   subject            = subject,
-                                   content            = content,
-                                   appUrl             = app_url,
-                                   response_structure = response_structure,
-                                   pia_url           = app[['url']],
-                                   app_key           = app[['app_key']],
-                                   app_secret        = app[['app_secret']],
-                                   encrypt            = 'false')
+                if(missing(parameters)){
+                        parameters <- list(address            = email,
+                                           appName            = app_name,
+                                           subject            = subject,
+                                           content            = content,
+                                           appUrl             = app_url,
+                                           response_structure = response_structure,
+                                           pia_url            = app[['url']],
+                                           app_key            = app[['app_key']],
+                                           app_secret         = app[['app_secret']],
+                                           encrypt            = 'false')
+                } else {
+                        parameters$address            = email
+                        parameters$appName            = app_name
+                        parameters$subject            = subject
+                        parameters$content            = content
+                        parameters$appUrl             = app_url
+                        parameters$response_structure = response_structure
+                        parameters$pia_url            = app[['url']]
+                        parameters$app_key            = app[['app_key']]
+                        parameters$app_secret         = app[['app_secret']]
+                        parameters$encrypt            = 'false'
+                        
+                }
                 config <- list(app            = app[['app_key']],
                                time           = time,
                                task           = 'email',

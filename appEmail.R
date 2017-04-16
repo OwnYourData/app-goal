@@ -15,10 +15,17 @@ observeEvent(input$saveGoalEmail, {
                         value='line_1(String)'
                 )
                 goal_structure <- list(
-                        repo=app_id,
-                        repoName='Tägliches Ziel',
-                        fields=goal_fields
-                )
+                        repo              = app_id,
+                        repoName          = 'Tägliches Ziel',
+                        fields            = goal_fields)
+                replace <- list(
+                        pia_url = app[['url']],
+                        app_key = app[['app_key']],
+                        app_secret = app[['app_secret']])
+                parameters <- list(
+                        Rscript_reference = 'last3goals',
+                        Rscript_repo      = scriptRepo,
+                        replace           = replace)
                 response_structure <- list(
                         goal_structure
                 )
@@ -30,7 +37,8 @@ observeEvent(input$saveGoalEmail, {
                                 'Dein heutiges Ziel',
                                 goalEmailText,
                                 '0 6 * * *',
-                                response_structure)
+                                response_structure,
+                                parameters=parameters)
                         setGoalEmailStatus('der Versand täglicher Emails wurde erfolgreich eingerichtet')
                 } else {
                         writeSchedulerEmail(
@@ -41,6 +49,7 @@ observeEvent(input$saveGoalEmail, {
                                 goalEmailText,
                                 '0 6 * * *',
                                 response_structure,
+                                parameters=parameters,
                                 id=schedulerEmail[['id']])
                         setGoalEmailStatus('die Emailadresse wurde erfolgreich aktualisiert')
                 }

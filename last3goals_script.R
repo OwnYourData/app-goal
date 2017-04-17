@@ -81,5 +81,5 @@ app_secret<-'[app_secret]'
 app<-setupApp(pia_url,app_key,app_secret)
 url<-itemsUrl(pia_url,app_key)
 items<-readItems(app,url)
-raw <- paste(apply(tail(items[order(as.Date(items$date, format="%Y-%m-%d")), c('date', 'value')],3), 1, function(x) paste(x, collapse=': ')), collapse = '<br>')
+raw<-paste(apply(head(items[order(as.Date(items$date,format="%Y-%m-%d"),decreasing=TRUE),c('date','value')],3),1,function(x) paste(x,collapse=': ')),collapse='<br>')
 result <- utf8ToInt(paste(raw, collapse = '<br>'))

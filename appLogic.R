@@ -39,28 +39,28 @@ appStart <- function(){
                                         value=schedulerEmail[['email']])
                         setGoalEmailStatus('Status: tägliche Emails werden an die angegebene Adresse versandt')
                 }
-        }
         
-        # write script to collect last 3 goals used by scheduler ------
-        scriptRepoUrl <- itemsUrl(app[['url']], scriptRepo)
-        scriptItems <- readItems(app, scriptRepoUrl)
-        goalScript <- scriptItems[
-                scriptItems$name == 'last3goals', ]
-        if(nrow(goalScript) > 1){
-                lapply(goalScript$id,
-                       function(x) deleteItem(app, 
-                                              scriptRepoUrl,
-                                              as.character(x)))
-                goalScript <- data.frame()
-        }
-        scriptData <- list(name           = 'last3goals',
-                           script         = last3goalsSkript,
-                           '_oydRepoName' = 'Ziel-Skript')
-        if(nrow(goalScript) == 0){
-                writeItem(app, scriptRepoUrl, scriptData)
-        } else {
-                updateItem(app, scriptRepoUrl, scriptData,
-                           goalScript$id)
+                # write script to collect last 3 goals used by scheduler ------
+                scriptRepoUrl <- itemsUrl(app[['url']], scriptRepo)
+                scriptItems <- readItems(app, scriptRepoUrl)
+                goalScript <- scriptItems[
+                        scriptItems$name == 'last3goals', ]
+                if(nrow(goalScript) > 1){
+                        lapply(goalScript$id,
+                               function(x) deleteItem(app, 
+                                                      scriptRepoUrl,
+                                                      as.character(x)))
+                        goalScript <- data.frame()
+                }
+                scriptData <- list(name           = 'last3goals',
+                                   script         = last3goalsSkript,
+                                   '_oydRepoName' = 'Ziel-Skript')
+                if(nrow(goalScript) == 0){
+                        writeItem(app, scriptRepoUrl, scriptData)
+                } else {
+                        updateItem(app, scriptRepoUrl, scriptData,
+                                   goalScript$id)
+                }
         }
 }
 
